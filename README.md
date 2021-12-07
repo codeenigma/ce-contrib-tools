@@ -11,7 +11,7 @@ There are three scripts in this repository to make feature branching and managin
 Clone the Git repo to `/opt` on your computer and make the scripts executable:
 
 ```bash
-cd /opt && sudo git clone git@github.com:codeenigma/ce-contrib-tools.git
+cd /opt && sudo git clone https://github.com/codeenigma/ce-contrib-tools.git
 sudo chmod +x /opt/ce-contrib-tools/*
 ```
 
