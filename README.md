@@ -8,10 +8,11 @@ There are three scripts in this repository to make feature branching and managin
 * remove_branches.sh - deletes trailing feature and merge branches in your local project
 
 # Installation
-Clone the Git repo to `/opt` on your computer:
+Clone the Git repo to `/opt` on your computer and make the scripts executable:
 
 ```bash
 cd /opt && sudo git clone git@github.com:codeenigma/ce-contrib-tools.git
+sudo chmod +x /opt/ce-contrib-tools/*
 ```
 
 Create links to the scripts in `/usr/local/bin` so they are available in `PATH`:
