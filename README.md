@@ -12,7 +12,7 @@ Clone the Git repo to `/opt` on your computer and make the scripts executable:
 
 ```bash
 cd /opt && sudo git clone https://github.com/codeenigma/ce-contrib-tools.git
-sudo chmod +x /opt/ce-contrib-tools/*
+sudo chmod +x /opt/ce-contrib-tools/*.sh
 ```
 
 Create links to the scripts in `/usr/local/bin` so they are available in `PATH`:
