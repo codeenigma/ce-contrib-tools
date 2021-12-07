@@ -11,17 +11,16 @@ There are three scripts in this repository to make feature branching and managin
 Clone the Git repo to `/opt` on your computer and make the scripts executable:
 
 ```bash
-cd /opt && sudo git clone https://github.com/codeenigma/ce-contrib-tools.git
+sudo git clone https://github.com/codeenigma/ce-contrib-tools.git /opt/ce-contrib-tools/
 sudo chmod +x /opt/ce-contrib-tools/*.sh
 ```
 
 Create links to the scripts in `/usr/local/bin` so they are available in `PATH`:
 
 ```bash
-cd /usr/local/bin
-sudo ln -s /opt/ce-contrib-tools/prepare_branch.sh prepare_branch
-sudo ln -s /opt/ce-contrib-tools/commit.sh commit
-sudo ln -s /opt/ce-contrib-tools/remove_branches.sh remove_branches
+sudo ln -s /opt/ce-contrib-tools/prepare_branch.sh /usr/local/bin/prepare_branch
+sudo ln -s /opt/ce-contrib-tools/commit.sh /usr/local/bin/commit
+sudo ln -s /opt/ce-contrib-tools/remove_branches.sh /usr/local/bin/remove_branches
 ```
 
 # prepare_branch
