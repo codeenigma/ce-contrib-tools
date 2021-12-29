@@ -24,13 +24,17 @@ sudo ln -s /opt/ce-contrib-tools/remove_branches.sh /usr/local/bin/remove_branch
 ```
 
 # prepare_branch
-This takes one argument, the name of the feature branch you want to create.
+This takes two arguments, the name of the feature branch you want to create and the name of the remote to fetch branches from (defaults to `origin`).
 
 ## Usage
 * Go to the repo you want to work in
-* Execute the `prepare_branch` command with a sensible branch name, e.g. `prepare_branch my_new_feature`
+* Execute the `prepare_branch` command with a sensible branch name, e.g. `prepare_branch --name my_new_feature`
 
 This will switch to the default branch, ensure it is up to date with the central repo, checkout the feature branch and ensure it is up to date with the default branch. Note the command can also be used to refresh an existing feature branch. If the specified feature branche exists already the script will simply re-merge the default branch so it has the latest default branch code merged in.
+
+To use a remote other than `origin` do something like this:
+
+* `prepare_branch --name my_new_feature --origin my-fork`
 
 # commit
 This has two optional arguments, `--apply`, which causes the preparation of a branch to merge into the default branch, and `--remote` which allows you to specify a remote other than `origin`, e.g. `--remote my-fork`. If you run `commit` on its own then it will only prepare a branch to merge to the development branch (usually `devel`) and it will assume the remote name is `origin`.

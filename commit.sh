@@ -39,10 +39,6 @@ parse_options(){
 echo "Parsing provided options."
 parse_options "$@"
 
-echo "Checking variables."
-echo "$APPLY"
-echo "$REMOTE"
-
 # Determine the current branch
 branch_name="$(git symbolic-ref HEAD 2>/dev/null)" ||
 branch_name="(unnamed branch)"     # detached HEAD
