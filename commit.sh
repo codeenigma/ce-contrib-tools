@@ -1,4 +1,47 @@
 #!/bin/bash
+# Script to prepare feature branches for pull requests
+set -e
+
+usage(){
+  echo 'commit.sh [OPTIONS]'
+  echo 'Prepare feature branches for pull requests.'
+  echo ''
+  echo 'Available options:'
+  echo '--apply: Creates a feature branch for committing to the live branch, false by default'
+  echo '--remote: Defaults to origin, allows you to set an alternative remote name'
+}
+
+# Set defaults
+APPLY=false
+REMOTE="origin"
+
+# Parse options arguments.
+parse_options(){
+  while [ "${1:-}" ]; do
+    case "$1" in
+      "--apply")
+          APPLY=true
+        ;;
+      "--remote")
+          shift
+          REMOTE="$1"
+        ;;
+        *)
+        usage
+        exit 1
+        ;;
+    esac
+    shift
+  done
+}
+
+# Parse options.
+echo "Parsing provided options."
+parse_options "$@"
+
+echo "Checking variables."
+echo "$APPLY"
+echo "$REMOTE"
 
 # Determine the current branch
 branch_name="$(git symbolic-ref HEAD 2>/dev/null)" ||
@@ -45,9 +88,9 @@ echo "---------------------------"
 echo "Making sure main and test branches are up to date."
 # Checkout and pull main and test branches
 git checkout $test_branch
-git pull origin $test_branch
+git pull $REMOTE $test_branch
 git checkout $main_branch
-git pull origin $main_branch
+git pull $REMOTE $main_branch
 echo "---------------------------"
 
 echo "Preparing test branch for merge request."
@@ -63,10 +106,10 @@ fi
 git checkout$git_checkout_flag_test $branch_name-$merge_indicator-$test_branch
 git merge $test_branch
 git merge $branch_name
-git push origin $branch_name-$merge_indicator-$test_branch
+git push $REMOTE $branch_name-$merge_indicator-$test_branch
 echo "---------------------------"
 
-if [[ $1 == "apply" ]]; then
+if [ $APPLY = true ]; then
   echo "Also merging main branch."
   echo "Returning to our feature branch."
   git checkout $branch_name
@@ -82,7 +125,7 @@ if [[ $1 == "apply" ]]; then
   git checkout$git_checkout_flag_main $branch_name-$merge_indicator-$main_branch
   git merge $main_branch
   git merge $branch_name
-  git push origin $branch_name-$merge_indicator-$main_branch
+  git push $REMOTE $branch_name-$merge_indicator-$main_branch
   echo "---------------------------"
 fi
 
@@ -90,3 +133,4 @@ echo "Returning to our feature branch."
 git checkout $branch_name
 echo "---------------------------"
 echo "ALL DONE!"
+
