@@ -40,9 +40,11 @@ This has two optional arguments, `--apply`, which causes the preparation of a br
 * Check out your feature branch, e.g. `git checkout my_new_feature`
 * Work on your feature
 * Add and commit your changes, e.g. `git add . && git commit -m "Adding my new feature."`
-* Execute the `commit` command - without the `apply` argument it will only create a development PR branch
+* Execute the `commit` command - without the `--apply` option it will only create a development PR branch
 
-This will checkout and pull the development branch and the default branch in turn, to ensure they are up to date locally then, if it doesn't exist already, it will create a PR branch for merging to the development branch, e.g. `my_new_feature-PR-devel`. It will then merge `devel` into that branch, then it will merge `my_new_feature` into that branch. Finally, it will push the branch up, at which point you can go off to GitHub or GitLab and create your pull request. If you use the `apply` keyword as well, e.g. `commit apply`, then it will do the same steps for the default `1.x` branch, so  you finish with a `my_new_feature-PR-1.x` branch in GitHub ready to create a PR.
+This will checkout and pull the development branch and the default branch in turn, to ensure they are up to date locally then, if it doesn't exist already, it will create a PR branch for merging to the development branch, e.g. `my_new_feature-PR-devel`. It will then merge `devel` into that branch, then it will merge `my_new_feature` into that branch. Finally, it will push the branch up, at which point you can go off to GitHub or GitLab and create your pull request. If you use the `--apply` option as well, e.g. `commit --apply`, then it will do the same steps for the default `1.x` branch, so  you finish with a `my_new_feature-PR-1.x` branch in GitHub ready to create a PR.
+
+If for any reason your target remote for merges is not `origin` then you can specify a remote, e.g. `commit --apply --remote my-fork`.
 
 # remove_branches
 This takes one argument, the name of the feature branch you want to delete.
