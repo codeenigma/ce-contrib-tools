@@ -34,7 +34,7 @@ This takes one argument, the name of the feature branch you want to create.
 This will switch to the default branch, ensure it is up to date with the central repo, checkout the feature branch and ensure it is up to date with the default branch. Note the command can also be used to refresh an existing feature branch. If the specified feature branche exists already the script will simply re-merge the default branch so it has the latest default branch code merged in.
 
 # commit
-This has one optional argument, the keyword `apply`, which causes the preparation of a branch to merge into the default branch. If you run `commit` on its own then it will only prepare a branch to merge to the development branch (usually `devel`).
+This has two optional arguments, `--apply`, which causes the preparation of a branch to merge into the default branch, and `--remote` which allows you to specify a remote other than `origin`, e.g. `--remote my-fork`. If you run `commit` on its own then it will only prepare a branch to merge to the development branch (usually `devel`) and it will assume the remote name is `origin`.
 
 ## Usage
 * Go to the repo you want to work in
