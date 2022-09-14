@@ -9,6 +9,7 @@ usage(){
   echo 'Available options:'
   echo '--apply: Creates a feature branch for committing to the live branch, false by default'
   echo '--remote: Defaults to origin, allows you to set an alternative remote name'
+  echo '--skip-checks: Skip over any Git verification steps'
 }
 
 # Set defaults
@@ -21,6 +22,9 @@ parse_options(){
     case "$1" in
       "--apply")
           APPLY=true
+        ;;
+      "--skip-checks")
+          SKIP_CHECKS=true
         ;;
       "--remote")
           shift
@@ -102,7 +106,11 @@ fi
 git checkout$git_checkout_flag_test $branch_name-$merge_indicator-$test_branch
 git merge $test_branch
 git merge $branch_name
-git push $REMOTE $branch_name-$merge_indicator-$test_branch
+if [ $SKIP_CHECKS = true ]; then
+  git push --no-verify $REMOTE $branch_name-$merge_indicator-$test_branch
+else
+  git push $REMOTE $branch_name-$merge_indicator-$test_branch
+fi
 echo "---------------------------"
 
 if [ $APPLY = true ]; then
@@ -121,7 +129,11 @@ if [ $APPLY = true ]; then
   git checkout$git_checkout_flag_main $branch_name-$merge_indicator-$main_branch
   git merge $main_branch
   git merge $branch_name
-  git push $REMOTE $branch_name-$merge_indicator-$main_branch
+  if [ $SKIP_CHECKS = true ]; then
+    git push --no-verify $REMOTE $branch_name-$merge_indicator-$main_branch
+  else
+    git push $REMOTE $branch_name-$merge_indicator-$main_branch
+  fi
   echo "---------------------------"
 fi
 
