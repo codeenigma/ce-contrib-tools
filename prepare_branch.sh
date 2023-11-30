@@ -8,6 +8,7 @@ usage(){
   echo ''
   echo 'Available options:'
   echo '--name: Name of the feature branch to create or refresh'
+  echo '--default: Name of the default branch, 1.x, 2.x, apply, etc.'
   echo '--remote: Defaults to origin, allows you to set an alternative remote name'
 }
 
@@ -21,6 +22,10 @@ parse_options(){
       "--name")
           shift
 	  NAME="$1"
+        ;;
+      "--default")
+          shift
+          DEFAULT="$1"
         ;;
       "--remote")
           shift
@@ -48,13 +53,19 @@ fi
 # Fetch branches
 git_branches=`git branch`
 
-# Determine naming convention applied
-if [[ $git_branches == *"1.x"* ]]; then
-  echo "Using devel/1.x naming convention."
-  main_branch="1.x"
-else
-  echo "Using apply/test naming convention."
-  main_branch="apply"
+# Check we received a main branch name
+if [ -z "$DEFAULT" ]; then
+  # Determine naming convention applied
+  if [[ $git_branches == *"1.x"* ]]; then
+    echo "Using devel/1.x naming convention."
+    DEFAULT="1.x"
+  elif [[ $git_branches == *"apply"* ]]; then
+    echo "Using apply/test naming convention."
+    DEFAULT="apply"
+  else
+    echo "You must provide a branch name. Exiting."
+    exit 1
+  fi
 fi
 
 echo "NOW EXECUTING GIT COMMANDS!"
@@ -62,8 +73,8 @@ echo "---------------------------"
 
 echo "Making sure main branch is up to date."
 # Checkout and pull main branch
-git checkout $main_branch
-git pull $REMOTE $main_branch
+git checkout $DEFAULT
+git pull $REMOTE $DEFAULT
 echo "---------------------------"
 
 echo "Preparing feature branch."
@@ -71,7 +82,7 @@ echo "Preparing feature branch."
 if [[ `git branch --list $NAME` ]]; then
    echo "Branch name with $NAME already exists."
    git checkout $NAME
-   git merge $main_branch
+   git merge $DEFAULT
 else
    echo "No branch with name $NAME, creating."
    git checkout -b $NAME
