@@ -8,7 +8,32 @@ fi
 
 BRANCH=$1
 
-declare -a fb_branches=("_MR_test" "_MR_apply" "_PR_devel" "_PR_1x" "_PR_1.x" "_MR_devel" "_MR_1x" "_MR_1.x" "-MR-test" "-MR-apply" "-PR-devel" "-PR-1x" "-PR-1.x" "-MR-devel" "-MR-1x" "-MR-1.x")
+declare -a fb_branches=(
+  "_MR_test"
+  "_MR_apply"
+  "_PR_devel"
+  "_PR_1x"
+  "_PR_1.x"
+  "_MR_devel"
+  "_MR_1x"
+  "_MR_1.x"
+  "_PR_2.x"
+  "_PR_devel-2.x"
+  "_MR_2.x"
+  "_MR_devel-2.x"
+  "-MR-test"
+  "-MR-apply"
+  "-PR-devel"
+  "-PR-1x"
+  "-PR-1.x"
+  "-MR-devel"
+  "-MR-1x"
+  "-MR-1.x"
+  "-PR-2.x"
+  "-PR-devel-2.x"
+  "-MR-2.x"
+  "-MR-devel-2.x"
+)
 
 echo "NOW EXECUTING GIT COMMANDS!"
 echo "---------------------------"
