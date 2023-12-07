@@ -24,7 +24,7 @@ sudo ln -s /opt/ce-contrib-tools/remove_branches.sh /usr/local/bin/remove_branch
 ```
 
 # prepare_branch
-This takes two arguments, the name of the feature branch you want to create and the name of the remote to fetch branches from (defaults to `origin`).
+This takes three arguments, the name of the feature branch you want to create, the name of the remote to fetch branches from (defaults to `origin`) and the branch to base off of (currently defaults to `1.x`).
 
 ## Usage
 * Go to the repo you want to work in
@@ -35,6 +35,10 @@ This will switch to the default branch, ensure it is up to date with the central
 To use a remote other than `origin` do something like this:
 
 * `prepare_branch --name my_new_feature --origin my-fork`
+
+To base yourself off of the `2.x` branch do this:
+
+* `prepare_branch --name my_new_feature --default 2.x`
 
 # commit
 This has two optional arguments, `--apply`, which causes the preparation of a branch to merge into the default branch, and `--remote` which allows you to specify a remote other than `origin`, e.g. `--remote my-fork`. If you run `commit` on its own then it will only prepare a branch to merge to the development branch (usually `devel`) and it will assume the remote name is `origin`.
