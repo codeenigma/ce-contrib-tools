@@ -63,7 +63,7 @@ if [ -z "$DEFAULT" ]; then
     echo "Using apply/test naming convention."
     DEFAULT="apply"
   else
-    echo "You must provide a branch name. Exiting."
+    echo "Unable to determine the default branch name. Exiting."
     exit 1
   fi
 fi
