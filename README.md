@@ -24,7 +24,7 @@ sudo ln -s /opt/ce-contrib-tools/remove_branches.sh /usr/local/bin/remove_branch
 ```
 
 # prepare_branch
-This takes two arguments, the name of the feature branch you want to create and the name of the remote to fetch branches from (defaults to `origin`).
+This takes three arguments, the name of the feature branch you want to create, the name of the remote to fetch branches from (defaults to `origin`) and the default branch to fork from (defaults to `1.x`).
 
 ## Usage
 * Go to the repo you want to work in
@@ -36,12 +36,23 @@ To use a remote other than `origin` do something like this:
 
 * `prepare_branch --name my_new_feature --origin my-fork`
 
+If you want to use another live branch, for example `2.x`, then you can do something like this:
+
+* `prepare_branch --name my_new_feature --default 2.x`
+
 # commit
-This has two optional arguments, `--apply`, which causes the preparation of a branch to merge into the default branch, and `--remote` which allows you to specify a remote other than `origin`, e.g. `--remote my-fork`. If you run `commit` on its own then it will only prepare a branch to merge to the development branch (usually `devel`) and it will assume the remote name is `origin`.
+This has four optional arguments:
+
+* `--apply` - causes the preparation of a branch to merge into the default branch
+* `--default` - as with `prepare_branch`, allows you to set the default branch you're working from, defaulting to `1.x` - note, it will also set the `devel` branch to `devel-$TARGET_BRANCH` so assumes both exist - e.g. `--default 2.x` will set the default branch to `2.x` and the development branch to `devel-2.x`
+* `--remote` - allows you to specify a remote other than `origin`, e.g. `--remote my-fork`
+* `--skip-checks` - prevents Git from running local hooks
+
+If you run `commit` on its own then it will only prepare a branch to merge to the development branch (defaulting to `devel`) and it will assume the remote name is `origin` and the development branch is `devel`.
 
 ## Usage
 * Go to the repo you want to work in
-* Check out your feature branch, e.g. `git checkout my_new_feature`
+* Check out your feature branch, e.g. `git checkout my_new_feature` or, better yet, use the `prepare_branch` command
 * Work on your feature
 * Add and commit your changes, e.g. `git add . && git commit -m "Adding my new feature."`
 * Execute the `commit` command - without the `--apply` option it will only create a development PR branch
@@ -50,16 +61,16 @@ This will checkout and pull the development branch and the default branch in tur
 
 If for any reason your target remote for merges is not `origin` then you can specify a remote, e.g. `commit --apply --remote my-fork`.
 
+If your default branch is not `1.x` then you can specify a different one, e.g. `commit --apply --default 2.x`. This will create feature branches for `2.x` and `devel-2.x` instead of the defaults.
+
 # remove_branches
-This takes one argument, the name of the feature branch you want to delete.
+As with `prepare_branch`, this takes three arguments, the name of the feature branch you want to destroy, the name of the remote to prune from (defaults to `origin`) and the default branch to search for local merge branches (defaults to `1.x`).
 
 ## Usage
 * Go to the repo you want to work in
-* Execute the `remove_branches` command with the name of the feature branch you are finished with and want to delete, e.g. `remove_branches my_new_feature`
+* Execute the `remove_branches` command with the name of the feature branch you are finished with and want to delete, e.g. `remove_branches --name my_new_feature`
 
-This will attempt to delete the following local branches:
-* `my_new_feature`
-* `my_new_feature-PR-devel`
-* `my_new_feature-PR-1.x`
+This will attempt to delete the feature branch and an array of possible local merge branches, which you can see in the code where we declare the variable `fb_branches`.
 
-It will then execute a `git prune` to update the `origin` remote's local cache.
+It will then execute a `git prune` to update the `origin` remote's local cache. If your remote is not called `origin` you can set another remote with `--remote`. Similarly, if your default branch is not `1.x` you can specify another with `--default`, just as you can with `prepare_branch`.
+
