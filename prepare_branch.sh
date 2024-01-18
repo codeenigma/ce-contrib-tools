@@ -14,6 +14,7 @@ usage(){
 
 # Set defaults
 REMOTE="origin"
+DEFAULT="1.x"
 
 # Parse options arguments.
 parse_options(){
@@ -53,19 +54,15 @@ fi
 # Fetch branches
 git_branches=`git branch`
 
-# Check we received a main branch name
-if [ -z "$DEFAULT" ]; then
-  # Determine naming convention applied
-  if [[ $git_branches == *"1.x"* ]]; then
-    echo "Using devel/1.x naming convention."
-    DEFAULT="1.x"
-  elif [[ $git_branches == *"apply"* ]]; then
-    echo "Using apply/test naming convention."
-    DEFAULT="apply"
-  else
-    echo "Unable to determine the default branch name. Exiting."
-    exit 1
-  fi
+# Determine naming convention applied
+if [[ $git_branches == *"$DEFAULT"* ]]; then
+  echo "Using devel/$DEFAULT naming convention."
+elif [[ $git_branches == *"apply"* ]]; then
+  echo "Using apply/test naming convention."
+  DEFAULT="apply"
+else
+  echo "Unable to determine the default branch name. Exiting."
+  exit 1
 fi
 
 echo "NOW EXECUTING GIT COMMANDS!"
