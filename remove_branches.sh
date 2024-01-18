@@ -102,5 +102,8 @@ if [ -n "$REMOTE" ]; then
   git remote prune $REMOTE
 fi
 
+echo "Putting you back on your specified default branch."
+git checkout $DEFAULT
+
 echo "---------------------------"
 echo "ALL DONE!"
