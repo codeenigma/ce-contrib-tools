@@ -24,7 +24,7 @@ sudo ln -s /opt/ce-contrib-tools/remove_branches.sh /usr/local/bin/remove_branch
 ```
 
 # prepare_branch
-This takes three arguments, the name of the feature branch you want to create, the name of the remote to fetch branches from (defaults to `origin`) and the default branch to fork from (defaults to `1.x`).
+This takes three arguments, the name of the feature branch you want to create, the name of the remote to fetch branches from (defaults to `origin`) and the branch to base off of (currently defaults to `1.x`).
 
 ## Usage
 * Go to the repo you want to work in
@@ -36,7 +36,7 @@ To use a remote other than `origin` do something like this:
 
 * `prepare_branch --name my_new_feature --origin my-fork`
 
-If you want to use another live branch, for example `2.x`, then you can do something like this:
+To base yourself off of the `2.x` branch do this:
 
 * `prepare_branch --name my_new_feature --default 2.x`
 
