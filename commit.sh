@@ -8,14 +8,14 @@ usage(){
   echo ''
   echo 'Available options:'
   echo '--apply: Creates a feature branch for committing to the live branch, false by default'
-  echo '--target: The target live branch, defaults to 1.x for now'
+  echo '--default: The target default live branch, defaults to 1.x for now'
   echo '--remote: Defaults to origin, allows you to set an alternative remote name'
   echo '--skip-checks: Skip over any Git verification steps'
 }
 
 # Set defaults
 APPLY=false
-TARGET_BRANCH="1.x"
+DEFAULT="1.x"
 DEVEL_BRANCH="devel"
 REMOTE="origin"
 
@@ -26,9 +26,9 @@ parse_options(){
       "--apply")
           APPLY=true
         ;;
-      "--target")
+      "--default")
 	  shift
-          TARGET_BRANCH="$1"
+          DEFAULT="$1"
 	  DEVEL_BRANCH="devel-$1"
         ;;
       "--skip-checks")
@@ -80,9 +80,9 @@ fi
 git_branches=`git branch`
 
 # Determine naming convention applied
-if [[ $git_branches == *"$TARGET_BRANCH"* ]]; then
-  echo "Using $DEVEL_BRANCH/$TARGET_BRANCH naming convention."
-  main_branch="$TARGET_BRANCH"
+if [[ $git_branches == *"$DEFAULT"* ]]; then
+  echo "Using $DEVEL_BRANCH/$DEFAULT naming convention."
+  main_branch="$DEFAULT"
   test_branch="$DEVEL_BRANCH"
 else
   echo "Using apply/test naming convention."
