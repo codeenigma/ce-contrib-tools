@@ -14,7 +14,7 @@ usage(){
 
 # Set defaults
 REMOTE="origin"
-DEFAULT="1.x"
+DEFAULT="2.x"
 
 # Parse options arguments.
 parse_options(){

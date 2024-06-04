@@ -14,8 +14,8 @@ usage(){
 
 # Set defaults
 REMOTE="origin"
-DEFAULT="1.x"
-DEVEL_DEFAULT="devel"
+DEFAULT="2.x"
+DEVEL_DEFAULT="devel-2.x"
 
 # Parse options arguments.
 parse_options(){
@@ -46,6 +46,11 @@ parse_options(){
 # Parse options.
 echo "Parsing provided options."
 parse_options "$@"
+
+# Catch 1.x version of devel.
+if [ $DEVEL_DEFAULT == 'devel-1.x' ]; then
+  DEVEL_DEFAULT="devel"
+fi
 
 # Check we received a feature branch name
 if [ -z "$BRANCH" ]; then
@@ -104,6 +109,7 @@ fi
 
 echo "Putting you back on your specified default branch."
 git checkout $DEFAULT
+git pull $REMOTE $DEFAULT
 
 echo "---------------------------"
 echo "ALL DONE!"
