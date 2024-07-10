@@ -108,6 +108,7 @@ git pull $REMOTE $main_branch
 echo "---------------------------"
 
 echo "Preparing test branch for merge request."
+git checkout $test_branch
 # Determine if merge branch exists for test
 if [[ `git branch --list $branch_name-$merge_indicator-$test_branch` ]]; then
    echo "Branch name with $branch_name-$merge_indicator-$test_branch already exists."
@@ -115,15 +116,16 @@ if [[ `git branch --list $branch_name-$merge_indicator-$test_branch` ]]; then
 else
    echo "No branch with name $branch_name-$merge_indicator-$test_branch, creating."
    git_checkout_flag_test=" -b"
+   set_upstream_test="--set-upstream"
 fi
 # Checkout test merge branch
 git checkout$git_checkout_flag_test $branch_name-$merge_indicator-$test_branch
 git pull $REMOTE $test_branch
 git merge $branch_name
 if [ $SKIP_CHECKS = true ]; then
-  git push --no-verify $REMOTE $branch_name-$merge_indicator-$test_branch
+  git push --no-verify $set_upstream_test $REMOTE $branch_name-$merge_indicator-$test_branch
 else
-  git push $REMOTE $branch_name-$merge_indicator-$test_branch
+  git push $set_upstream_test $REMOTE $branch_name-$merge_indicator-$test_branch
 fi
 echo "---------------------------"
 
@@ -138,15 +140,16 @@ if [ $APPLY = true ]; then
   else
     echo "No branch with name $branch_name-$merge_indicator-$main_branch, creating."
     git_checkout_flag_main=" -b"
+    set_upstream_test="--set-upstream"
   fi
   # Checkout main merge branch
   git checkout$git_checkout_flag_main $branch_name-$merge_indicator-$main_branch
   git pull $REMOTE $main_branch
   git merge $branch_name
   if [ $SKIP_CHECKS = true ]; then
-    git push --no-verify $REMOTE $branch_name-$merge_indicator-$main_branch
+    git push --no-verify $set_upstream_test $REMOTE $branch_name-$merge_indicator-$main_branch
   else
-    git push $REMOTE $branch_name-$merge_indicator-$main_branch
+    git push $set_upstream_test $REMOTE $branch_name-$merge_indicator-$main_branch
   fi
   echo "---------------------------"
 fi
