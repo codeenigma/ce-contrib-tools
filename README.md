@@ -90,7 +90,7 @@ This has two optional arguments:
 * `--default` - allows you to set the default branch you're working from, defaulting to `2.x` - note, it will also set the `devel` branch to `devel-$TARGET_BRANCH` so assumes both exist - e.g. `--default 3.x` will set the default branch to `3.x` and the development branch to `devel-3.x`
 * `--remote` - allows you to specify a remote other than `origin`, e.g. `--remote my-fork`
 
-# Usage
+## Usage
 * Go to the directory above a set of directories containing ce-provision/deploy repositories, for example if you have a directory at `/home/joe/infras` with your client infra repos in, e.g. `/home/joe/infras/acme`, `/home/joe/infras/example`, etc. then `cd /home/joe/infras`
 * Execute the `update_repos` command
 
