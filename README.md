@@ -6,6 +6,7 @@ There are three scripts in this repository to make feature branching and managin
 * prepare_branch.sh - creates a feature branch from the default branch
 * commit.sh - prepares and pushes merge branches
 * remove_branches.sh - deletes trailing feature and merge branches in your local project
+* update_repos.sh - updates all the repos in subdirectories of the directory you call the script from
 
 # Installation
 Clone the Git repo to `/opt` on your computer and make the scripts executable:
@@ -24,7 +25,11 @@ sudo ln -s /opt/ce-contrib-tools/remove_branches.sh /usr/local/bin/remove_branch
 ```
 
 # prepare_branch
-This takes three arguments, the name of the feature branch you want to create, the name of the remote to fetch branches from (defaults to `origin`) and the branch to base off of (currently defaults to `2.x`).
+This takes three arguments:
+
+* `--name` - the name of the feature branch to create or refresh
+* `--default` - allows you to set the default branch you're working from, defaulting to `2.x` - note, it will also set the `devel` branch to `devel-$TARGET_BRANCH` so assumes both exist - e.g. `--default 3.x` will set the default branch to `3.x` and the development branch to `devel-3.x`
+* `--remote` - allows you to specify a remote other than `origin`, e.g. `--remote my-fork`
 
 ## Usage
 * Go to the repo you want to work in
@@ -44,7 +49,7 @@ To base yourself off of the `1.x` branch do this:
 This has four optional arguments:
 
 * `--apply` - causes the preparation of a branch to merge into the default branch
-* `--default` - as with `prepare_branch`, allows you to set the default branch you're working from, defaulting to `2.x` - note, it will also set the `devel` branch to `devel-$TARGET_BRANCH` so assumes both exist - e.g. `--default 3.x` will set the default branch to `3.x` and the development branch to `devel-3.x`
+* `--default` - allows you to set the default branch you're working from, defaulting to `2.x` - note, it will also set the `devel` branch to `devel-$TARGET_BRANCH` so assumes both exist - e.g. `--default 3.x` will set the default branch to `3.x` and the development branch to `devel-3.x`
 * `--remote` - allows you to specify a remote other than `origin`, e.g. `--remote my-fork`
 * `--skip-checks` - prevents Git from running local hooks
 
@@ -64,7 +69,11 @@ If for any reason your target remote for merges is not `origin` then you can spe
 If your default branch is not `2.x` then you can specify a different one, e.g. `commit --apply --default 1.x`. This will create feature branches for `1.x` and `devel` instead of the defaults.
 
 # remove_branches
-As with `prepare_branch`, this takes three arguments, the name of the feature branch you want to destroy, the name of the remote to prune from (defaults to `origin`) and the default branch to search for local merge branches (defaults to `2.x`).
+This takes three arguments:
+
+* `--name` - the name of the feature branch to create or refresh
+* `--default` - allows you to set the default branch you're working from, defaulting to `2.x` - note, it will also set the `devel` branch to `devel-$TARGET_BRANCH` so assumes both exist - e.g. `--default 3.x` will set the default branch to `3.x` and the development branch to `devel-3.x`
+* `--remote` - allows you to specify a remote other than `origin`, e.g. `--remote my-fork`
 
 ## Usage
 * Go to the repo you want to work in
@@ -73,3 +82,15 @@ As with `prepare_branch`, this takes three arguments, the name of the feature br
 This will attempt to delete the feature branch and an array of possible local merge branches, which you can see in the code where we declare the variable `fb_branches`.
 
 It will then execute a `git prune` to update the `origin` remote's local cache. If your remote is not called `origin` you can set another remote with `--remote`. Similarly, if your default branch is not `2.x` you can specify another with `--default`, just as you can with `prepare_branch`.
+
+# update_repos
+This has two optional arguments:
+
+* `--default` - allows you to set the default branch you're working from, defaulting to `2.x` - note, it will also set the `devel` branch to `devel-$TARGET_BRANCH` so assumes both exist - e.g. `--default 3.x` will set the default branch to `3.x` and the development branch to `devel-3.x`
+* `--remote` - allows you to specify a remote other than `origin`, e.g. `--remote my-fork`
+
+# Usage
+* Go to the directory above a set of directories containing ce-provision/deploy repositories, for example if you have a directory at `/home/joe/infras` with your client infra repos in, e.g. `/home/joe/infras/acme`, `/home/joe/infras/example`, etc. then `cd /home/joe/infras`
+* Execute the `update_repos` command
+
+It will then loop over all the subdirectories of the parent directory, save the current branch, attempt to check out and pull the testing and live branches, then checkout the original branch again to leave the repo how it was. For infra repos it will automatically switch to `test`/`apply` for testing and live respectively. For config repos, if you are using anything other than `devel-2.x`/`2.x` then you will need to specify the default branch using `--default`. The same `--remote` and `--default` settings will be applied to all subdirectories.
