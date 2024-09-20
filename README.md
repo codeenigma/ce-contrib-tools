@@ -22,6 +22,7 @@ Create links to the scripts in `/usr/local/bin` so they are available in `PATH`:
 sudo ln -s /opt/ce-contrib-tools/prepare_branch.sh /usr/local/bin/prepare_branch
 sudo ln -s /opt/ce-contrib-tools/commit.sh /usr/local/bin/commit
 sudo ln -s /opt/ce-contrib-tools/remove_branches.sh /usr/local/bin/remove_branches
+sudo ln -s /opt/ce-contrib-tools/update_repos.sh /usr/local/bin/update_repos
 ```
 
 # prepare_branch
