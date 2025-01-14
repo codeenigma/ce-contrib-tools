@@ -47,11 +47,6 @@ parse_options(){
 echo "Parsing provided options."
 parse_options "$@"
 
-# Catch 1.x version of devel.
-if [ $DEVEL_DEFAULT == 'devel-1.x' ]; then
-  DEVEL_DEFAULT="devel"
-fi
-
 # Check we received a feature branch name
 if [ -z "$BRANCH" ]; then
   echo "You must provide a branch name. Exiting."

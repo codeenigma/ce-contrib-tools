@@ -44,11 +44,6 @@ parse_options(){
 echo "Parsing provided options."
 parse_options "$@"
 
-# Catch 1.x version of devel.
-if [ $DEVEL_BRANCH == 'devel-1.x' ]; then
-  DEVEL_BRANCH="devel"
-fi
-
 # Load current directory
 dir=$(pwd)
 

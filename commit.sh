@@ -51,11 +51,6 @@ parse_options(){
 echo "Parsing provided options."
 parse_options "$@"
 
-# Catch 1.x version of devel.
-if [ $DEVEL_BRANCH == 'devel-1.x' ]; then
-  DEVEL_BRANCH="devel"
-fi
-
 # Determine the current branch
 branch_name="$(git symbolic-ref HEAD 2>/dev/null)" ||
 branch_name="(unnamed branch)"     # detached HEAD
