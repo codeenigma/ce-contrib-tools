@@ -77,7 +77,7 @@ if [[ $branch_name == *"$merge_indicator"* ]]; then
 fi
 
 # Fetch branches
-git fetch --all
+git fetch --all --prune
 git_branches=`git branch`
 
 # Determine naming convention applied

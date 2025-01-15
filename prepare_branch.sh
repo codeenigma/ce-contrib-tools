@@ -68,6 +68,11 @@ fi
 echo "NOW EXECUTING GIT COMMANDS!"
 echo "---------------------------"
 
+echo "Cleaning up remotes."
+# Run a git prune
+git fetch --all --prune
+echo "---------------------------"
+
 echo "Making sure main branch is up to date."
 # Checkout and pull main branch
 git checkout $DEFAULT
